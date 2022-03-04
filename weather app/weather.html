@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://kit.fontawesome.com/dfa13a6531.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      iframe {
+        
+        width: 100%;
+        height: 430px;
+        box-shadow: rgb(85, 91, 255) 0px 0px 0px 3px,;
+        background-image: linear-gradient(
+          rgba(45, 45, 214, 0.5),
+          rgba(163, 163, 36, 0.5)
+        );
+      }
+      .main {
+        display: flex;
+        flex-direction: column;
+
+        width: 500px;
+        height: 400px;
+        margin-left: 100px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-image: linear-gradient(
+          rgba(45, 45, 214, 0.5),
+          rgba(172, 172, 37, 0.5)
+        );
+        background-image: linear-gradient(
+            rgba(45, 45, 214, 0.5),
+            rgba(255, 255, 0, 0.5)
+          ),
+          url("https://image.freepik.com/free-vector/big-pines-nature-scene-background_1308-45969.jpg");
+        font-size: 20px;
+        margin-top: 50px;
+      }
+      body {
+        width: 100%;
+        background-image: linear-gradient(
+            rgba(0, 0, 255, 0.5),
+            rgba(255, 255, 0, 0.5)
+          ),
+          url("https://image.freepik.com/free-vector/big-pines-nature-scene-background_1308-45969.jpg");
+      }
+      i {
+        margin-top: -12%;
+        text-align: center;
+        width: 150%;
+        height: 25px;
+      }
+      h1 {
+        margin-top: -10px;
+        text-align: center;
+        font-family: "Times New Roman", Times, serif;
+        text-shadow: darkorange;
+        font-weight: bolder;
+        background-image: linear-gradient(
+          rgba(45, 45, 214, 0.5),
+          rgba(228, 228, 199, 0.5)
+        );
+      }
+      input {
+        margin-top: 20px;
+        padding: 10px;
+        border: 2px solid black;
+        border-radius: 10px;
+      }
+      button {
+        background-color: rgba(11, 11, 185, 0.5);
+        border: 2px solid black;
+        margin-top: 20px;
+        padding: 10px;
+        color: white;
+        font-size: 20px;
+        font-family: cursive;
+        border-radius: 10px;
+        background-image: linear-gradient(
+          rgba(45, 45, 214, 0.5),
+          rgba(255, 255, 0, 0.5)
+        );
+      }
+      .imgww{
+        border: 1px solid transparent;
+        width: 40%;
+        height: 430px;
+        margin: auto;
+        margin-left: 700px;
+        margin-top: -29.5%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <h1>Weather</h1>
+      <i class="far fa-sun"></i>
+      <input type="search" placeholder="City Name" id="city" />
+      <button onclick="getweather()">Search</button>
+      <div id="data"></div>
+    </div>
+    <div class="imgww"
+    <div id="map"></div>
+</div>
+  </body>
+</html>
+<script>
+  let data_div = document.getElementById("data");
+  async function getweather() {
+    try {
+      let city = document.getElementById("city").value;
+      let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=9d039355fa5cbffcbb2b121f0a85b477&units=metric`;
+
+      document.getElementById("map").innerHTML = `<div class="mapouter">
+    <div class="gmap_canvas">
+      <iframe
+        class="gmap_iframe"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=${city}&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+      ></iframe>
+    </div>
+  </div>`;
+
+      let response = await fetch(url);
+
+      let data = await response.json();
+      showweather(data);
+
+      console.log("data:", data);
+    } catch (err) {
+      console.log("err", err);
+    }
+  }
+
+  function showweather(weather) {
+    let temp = document.createElement("p");
+
+    temp.innerText = `Temp - ${weather.main.temp}°C`;
+
+    let pressure = document.createElement("p");
+
+    pressure.innerText = `Pressure - ${weather.main.pressure}`;
+
+    let humidity = document.createElement("p");
+
+    humidity.innerText = `Humidity - ${weather.main.humidity}`;
+
+    data_div.append(temp, pressure, humidity);
+  }
+</script>
